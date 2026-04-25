@@ -1,0 +1,18 @@
+services:
+  dp-fl2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dp-fl2-workspace
+    volumes:
+      - .:/workspace/dp-fl2
+      - ../aiagents:/workspace/aiagents
+      - ssh-keys:/root/.ssh
+      - git-repo:/workspace/dp-fl2/.git
+    stdin_open: true
+    tty: true
+    working_dir: /workspace/dp-fl2
+
+volumes:
+  ssh-keys:
+  git-repo:

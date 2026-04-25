@@ -1,0 +1,82 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fl-dpfedaug"
+version = "1.0.0"
+description = "Cross-Silo Federated Learning"
+license = "Apache-2.0"
+dependencies = [
+    "flwr[simulation]>=1.20.0",
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "opacus>=1.5.4",
+    "pandas>=2.0.0",
+    "numpy>=1.26.0",
+    "scikit-learn>=1.4.0",
+    "imbalanced-learn>=0.12.0",
+    "tqdm",
+    "wandb",
+    "medmnist",
+    "python-dotenv>=1.0.0",
+    "flwr-datasets>=0.5.0",
+    "datasets>=2.14.6,<3.0.0", # Pin to 2.x for flwr_datasets compatibility
+    "omegaconf>=2.3.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["strategy/fedaug", "strategy/fedavg", "strategy/fedprox", "data_loader"]
+
+# --- Flower App Configuration ---
+[tool.flwr.app]
+publisher = "fl-dpfedaug"
+
+[tool.flwr.app.components]
+serverapp = "strategy.dpfedaug.server_app:app"
+clientapp = "strategy.dpfedaug.client_app:app"
+
+# --- Default Run Configuration ---
+# These values will be used *unless* overridden by the script
+[tool.flwr.app.config]
+dataset = "braintumor"
+num-clients = 8
+non-iid-alpha = 1.0
+num-local-epochs = 10
+balancing = "none"
+synthetic-count = 0
+synthetic-epochs = 100
+synthetic-batch-size = 64
+synthetic-latent-dim = 20
+synthetic-kl-warmup = 10
+synthetic-lr = 0.001
+synthetic-delta = 1e-5
+synthetic-eval-metrics=false
+max-grad-norm = 1.0
+img-size = 32
+target-epsilon = "none"  # Privacy budget: "none" = no DP, or numeric like "1", "8", etc.
+num-server-rounds = 2000
+lr = 0.001
+batch-size = 10
+gradient_clipping = true
+total-n = 200
+weight-decay = 0.0001
+proximal-mu = 0.0  # FedProx proximal term (set >0 to enable)
+seed = 42
+partitioning = "dirichlet"  # "dirichlet" (uses alpha) or "extreme" (one class per client)
+wandb-project = "NEEDS TO CHANGE" # W&B project name for logging
+classification_type = "multiclass"  # "binary" or "multiclass"
+mnist-use-dropout = false
+mnist-dropout-rate = 0.1
+updates-dp-enabled = false
+updates-dp-epsilon = 1.0
+updates-dp-delta = 1e-5
+updates-dp-max-grad-norm = 1.0
+updates-dp-clipping-norm = 1.0
+updates-dp-sensitivity = 1.0
+
+[tool.flwr.federations]
+default = "local-simulation"
+
+[tool.flwr.federations.local-simulation]
+options.num-supernodes = 10

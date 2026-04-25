@@ -1,0 +1,66 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+
+# --- Editor / OS ---
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# --- Secrets & local config ---
+.env
+.env.*
+!.env.example
+.claude/
+.codex
+.mcp.json
+.mcp.json.bak
+
+# --- Data, models, experiment outputs (large binaries; not for git) ---
+data/
+notebooks/data/
+checkpoints/
+external/
+results/
+wandb/
+notebooks/wandb/
+notebooks/cifar/wandb/
+notebooks/output/
+notebooks/outputs/
+visual/outputs/
+thesis_figures/
+
+# --- Generated artifacts ---
+*.pkl
+*.png
+*.pdf
+*.csv
+*.txt
+*.zip
+*.tar.gz
+*.pt
+*.ckpt
+
+# --- Misc ---
+*.sh
+project_export.txt
+
+# --- Dataset-specific large artifacts ---
+notebooks/cifar/stylegan2ada_class1_500/stylegan2-ada-pytorch/
+notebooks/cifar/stylegan2ada_class1_500/training-runs/
+*/stylegan2-ada-pytorch/
+
+
+#
